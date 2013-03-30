@@ -1,8 +1,9 @@
 import os, sys
 os.environ['DJANGO_SETTINGS_MODULE'] = 'voting.tests.settings'
 
-from django.test.simple import run_tests
+from django.test.simple import DjangoTestSuiteRunner
 
-failures = run_tests(None, verbosity=9)
+runner = DjangoTestSuiteRunner(verbosity=9)
+failures = runner.run_tests(None)
 if failures:
     sys.exit(failures)

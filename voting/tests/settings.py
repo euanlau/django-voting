@@ -2,8 +2,12 @@ import os
 
 DIRNAME = os.path.dirname(__file__)
 
-DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = os.path.join(DIRNAME, 'database.db')
+DATABASES = {
+    'default' : {
+        'ENGINE' : 'django.db.backends.sqlite3',
+        'NAME' : os.path.join(DIRNAME, 'database.db'),
+    }
+}
 
 #DATABASE_ENGINE = 'mysql'
 #DATABASE_NAME = 'tagging_test'
