@@ -1,6 +1,5 @@
 from django import template
 from django.utils.html import escape
-
 from voting.models import Vote
 
 register = template.Library()
@@ -241,3 +240,9 @@ def vote_display(vote, arg=None):
     return down
 
 register.filter(vote_display)
+
+def votes_count(user):
+    count = Vote.objects.filter(user_id=user.id).count()
+    return count
+
+register.filter(votes_count)
