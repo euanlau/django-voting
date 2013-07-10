@@ -96,6 +96,23 @@ class VoteManager(models.Manager):
 
         return vote_dict
 
+    def toggle(self, obj, user):
+        ctype = ContentType.objects.get_for_model(obj)
+        vote = +1
+        try:
+            v = self.get(user=user, content_type=ctype,
+                         object_id=obj._get_pk_val())
+            if v.vote != 0:
+                vote = 0
+                v.delete()
+            else:
+                v.vote = vote
+                v.save()
+        except models.ObjectDoesNotExist:
+            self.create(user=user, content_type=ctype,
+                        object_id=obj._get_pk_val(), vote=vote)
+        return vote
+
     def record_vote(self, obj, user, vote):
         """
         Record a user's vote on a given object. Only allows a given user
@@ -119,6 +136,7 @@ class VoteManager(models.Manager):
                 return
             self.create(user=user, content_type=ctype,
                         object_id=obj._get_pk_val(), vote=vote)
+        return vote
 
     def get_top(self, Model, limit=10, reversed=False):
         """
